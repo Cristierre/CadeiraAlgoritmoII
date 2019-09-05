@@ -1,67 +1,97 @@
 #include <stdio.h>
-#define A 3
-#define B 4
- 
-int jogadorPecasBrancas = 1;
+#define PECA_BRANCA 1
+#define PECA_PRETA 2
+#define CASA_BRANCA -1
+#define CASA_PRETA 0 
+
+int jogador = 1;
 
 int main(){
 	
-	int tabuleiro[8][8] = {
-		
-	{A , 0 , A , 0 , A , 0 , A , 0},
-	{0 , A , 0 , A , 0 , A , 0 , A},
-	{1 , 0 , 1 , 0 , 1 , 0 , 1 , 0},
-	{0 , 1 , 0 , 1 , 0 , 1 , 0 , 1},
-	{1 , 0 , 1 , 0 , 1 , 0 , 1 , 0},
-	{0 , 1 , 0 , 1 , 0 , 1 , 0 , 1},
-	{B , 0 , B , 0 , B , 0 , B , 0},
-	{0 , B , 0 , B , 0 , B , 0 , B},
+	int tabuleiro[8][8];
+	int indiceLinhas;
+	int indiceColunas;
 	
-	};
+	inicioDeJogo(tabuleiro);
+	movePeca(tabuleiro);
 	
-	turno(tabuleiro);
-	
+//	for(indiceLinhas = 0 ; indiceLinhas < 8; indiceLinhas++){
+//		printf("%d |",indiceLinhas);
+//		for(indiceColunas = 0 ; indiceColunas < 8; indiceColunas++){
+//			printf("  %d  ", tabuleiro[indiceLinhas][indiceColunas]);
+//		}
+//		printf("\n \n");
+//	}
 	printf("\n \n");
 	printf("\n \n");
 
 }
-int turno(int tabuleiro[8][8]){
+int inicioDeJogo(int tabuleiro[8][8]) {
+	int indiceLinhas;
+	int indiceColunas;
+	int colunaInicio;
 	
+	for(indiceLinhas = 0 ; indiceLinhas < 8; indiceLinhas++){
+		for(indiceColunas = 0 ; indiceColunas < 8; indiceColunas++){
+			tabuleiro[indiceLinhas][indiceColunas] = 0;		
+		}
+	}
 	
-	if(jogadorPecasBrancas == 1){
+	for(indiceLinhas = 0 ; indiceLinhas < 8; indiceLinhas++){
+		if(indiceColunas%2 == 0){
+			colunaInicio = 1;
+		}else{
+			colunaInicio = 0;
+		}
+		for(indiceColunas = colunaInicio; indiceColunas < 8; indiceColunas+=2){
+			tabuleiro[indiceLinhas][indiceColunas] = CASA_BRANCA;		
+		}
+	}
+	
+	for(indiceLinhas = 0 ; indiceLinhas < 8; indiceLinhas++){
+		for(indiceColunas = 0 ; indiceColunas < 8; indiceColunas++){
+			if(indiceLinhas <= 2 && tabuleiro[indiceLinhas][indiceColunas] == 0){
+				tabuleiro[indiceLinhas][indiceColunas] = PECA_BRANCA;
+			}else{
+				if(indiceLinhas >= 5 && tabuleiro[indiceLinhas][indiceColunas] == 0){
+					tabuleiro[indiceLinhas][indiceColunas] = PECA_PRETA;
+				}
+			}		
+		}
+	}
+	return 0;
+}
+int turno(){	
+	if(jogador == 1){
 		printf("Jogador 1 eh sua vez de jogar! \n \n");
-		selecionaPeca(tabuleiro);
-		movePeca(tabuleiro);
-		jogadorPecasBrancas = 0;
-		system("cls");
 	}else{
 		printf("Jogador 2 eh sua vez de jogar! \n \n");
-		selecionaPeca(tabuleiro);
-		movePeca(tabuleiro);
-		jogadorPecasBrancas = 1;
-		system("cls");
-	}
-	turno(tabuleiro);	
-	
+	}	
 	return 0;
 }
 
 
 int posicionaPecas(int tabuleiro[8][8]){
-	int i;
-	int ii;
-
-	for(i = 0; i < 8; i++){
-		printf("%d | ",i);
+	int indiceLinhas = 0;
+	int indiceColunas;
+	printf("    ");
+	while(indiceLinhas < 8){
+		printf("  %d  ",indiceLinhas);
+		indiceLinhas++;
+	}
+	printf("\n");
+	printf("____________________________________________ \n \n");
+	for(indiceLinhas = 0; indiceLinhas < 8; indiceLinhas++){
+		printf("%d | ",indiceLinhas);
 		
-		for(ii = 0; ii < 8; ii++){
-			if(tabuleiro[i][ii] == A){
+		for(indiceColunas = 0; indiceColunas < 8; indiceColunas++){
+			if(tabuleiro[indiceLinhas][indiceColunas] == PECA_BRANCA){
 				printf("  A  ");
 			}else{
-				if(tabuleiro[i][ii] == B){
+				if(tabuleiro[indiceLinhas][indiceColunas] == PECA_PRETA){
 					printf("  B  ");
 				}else{
-					if(tabuleiro[i][ii] == 1){
+					if(tabuleiro[indiceLinhas][indiceColunas] == 0){
 						printf("  _  ");						
 					}else{
 						printf("  =  ");
@@ -76,96 +106,69 @@ int posicionaPecas(int tabuleiro[8][8]){
 	};	
 	return 0;
 }
-
-int selecionaPeca(int tabuleiro[8][8]){
-	
-	int linhaOrg;
-	int colunaOrg;
-	
-	
-	int i;
-	int ii;
-	
-	posicionaPecas(tabuleiro);
-	printf("\n \n");
-	
-	printf("Digite a linha da peca que deseja mover: \n");
-	scanf("%d", &linhaOrg);
-	
-	printf("Digite a coluna da peca que deseja mover: \n");
-	scanf("%d", &colunaOrg);
-	
-	system("cls");
-	
-	for(i = 0; i < 8; i++){
-		printf("%d | ",i);
-		
-		for(ii = 0; ii < 8; ii++){
-			if(tabuleiro[linhaOrg][colunaOrg] == B && jogadorPecasBrancas == 1){
-				tabuleiro[linhaOrg][colunaOrg] = 1;
-			}else{	
-				if(tabuleiro[linhaOrg][colunaOrg] == B && jogadorPecasBrancas == 0){
-					system("cls");
-					printf("Nao pode mexer a peca do adversario! \n \n");
-					selecionaPeca(tabuleiro);
-				}else{
-					if(tabuleiro[linhaOrg][colunaOrg] == A && jogadorPecasBrancas == 0){
-						tabuleiro[linhaOrg][colunaOrg] = 1;
-					}else{
-						if(tabuleiro[linhaOrg][colunaOrg] == A && jogadorPecasBrancas == 1){
-							system("cls");
-							printf("Nao pode mexer a peca do adversario! \n \n");
-							selecionaPeca(tabuleiro);
-						}
-					}
-				}				
-			}
-				
-		};
-		printf("\n \n");
-	};
-	posicionaPecas(tabuleiro);
-	printf("\n \n");
-	return 0;
-}
-
-
+//Arrumar a jogada caso seja inválida
 int movePeca(int tabuleiro[8][8]){
 		
-	int linhaDest;
-	int colunaDest;
+	int jogada;
+	int linhaOrigem;
+	int colunaOrigem;
 	
-	int i;
-	int ii;
-	
-	posicionaPecas(tabuleiro);
-	printf("\n \n");
+	int indiceLinhas;
+	int indiceColunas;
+	int finDeJogo = 0;	
+	int jogadaInvalida = 0;
 		
-	printf("Digite a linha para onde deseja mover a peca: \n");
-	scanf("%d", &linhaDest);
-	printf("Digite a coluna para onde deseja mover a peca: \n");
-	scanf("%d", &colunaDest);		
+	while(finDeJogo == 0){
 	
-	if((linhaDest+2 % 2 == 0 && colunaDest+2 % 2 == 0 && tabuleiro[linhaDest][colunaDest] + 2 % 2 == 0) || (linhaDest+2 % 2 == 1 && colunaDest+2 % 1 == 1 && tabuleiro[linhaDest][colunaDest] + 2 % 2 == 1)){
-			if(tabuleiro[linhaDest][colunaDest] == 1 && jogadorPecasBrancas == 1){
-				tabuleiro[linhaDest][colunaDest] = B;
-				posicionaPecas(tabuleiro);
-		}else{
-			if(tabuleiro[linhaDest][colunaDest] == 1 && jogadorPecasBrancas == 0){
-				tabuleiro[linhaDest][colunaDest] = A;
-				posicionaPecas(tabuleiro);
-			}
-		}	
-	}else{
-		system("cls");
-		printf("So eh possivel jogar nas casas pretas \n \n");
-		movePeca(tabuleiro);
-	}	
-
 		posicionaPecas(tabuleiro);
+		turno();
+		
+		printf("Digite a linha da peca que deseja mover: \n");
+		scanf("%d",&linhaOrigem);
+		printf("Digite a coluna da peca que deseja mover: \n");
+		scanf("%d",&colunaOrigem);
+		
+		printf("Digite 1 para mover para a esquerda e 0 para mover para a direita! \n");
+		scanf("%d", &jogada);
+		if(jogador == 1){
+			if(jogada == 1 && tabuleiro[linhaOrigem][colunaOrigem] == PECA_PRETA){
+					tabuleiro[linhaOrigem][colunaOrigem] = 0;
+					tabuleiro[linhaOrigem-1][colunaOrigem-1] = PECA_PRETA;
+					jogador = 0;
+			}else{		
+				if(jogada == 0 && tabuleiro[linhaOrigem][colunaOrigem] == PECA_PRETA){
+					tabuleiro[linhaOrigem][colunaOrigem] = 0;
+					tabuleiro[linhaOrigem-1][colunaOrigem+1] = PECA_PRETA;
+					jogador = 0;					
+				}else{
+					jogadaInvalida = 1;
+				}			
+			}
+		}else{
+			if(jogador == 0){
+				if(jogada == 1 && tabuleiro[linhaOrigem][colunaOrigem] == PECA_BRANCA){
+					tabuleiro[linhaOrigem][colunaOrigem] = 0;
+					tabuleiro[linhaOrigem+1][colunaOrigem-1] = PECA_BRANCA;	
+					jogador = 1;		
+			}else{
+				if(jogada == 0 && tabuleiro[linhaOrigem][colunaOrigem] == PECA_BRANCA){
+					tabuleiro[linhaOrigem][colunaOrigem] = 0;
+					tabuleiro[linhaOrigem+1][colunaOrigem+1] = PECA_BRANCA;
+					jogador = 1;
+				}else{
+					jogadaInvalida = 1;
+				}
+			}
+				
+		}
+		if(jogadaInvalida == 1){
+			system("cls");
+			printf("Jogada Invalida \n \n");
+		}
 		return 0;
+	}
+	}	
 }
-
 
 
 
