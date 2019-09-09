@@ -5,7 +5,24 @@
 #define CASA_PRETA 0 
 
 int jogador = 1;
-
+/*
+JOGADAS INVÁLIDAS
+1) FORA LIMITES
+ Esq(coluna < 0)
+ Dir(c > 7)
+ jog1(l<0)
+ jog2(l>7)
+ 
+ 
+ 
+ Casa ocupada (!=0)
+ 	se(casaDestino == outroJogador){
+ 		executar mais 1 movimento
+	}se(casa vazia){
+		move para casa destino  do segundo movimento
+		remove peca do adversário
+	}
+*/
 int main(){
 	
 	int tabuleiro[8][8];
