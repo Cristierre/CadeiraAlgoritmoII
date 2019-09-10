@@ -151,55 +151,91 @@ int movePeca(int tabuleiro[8][8]){
 						jogadaInvalida = 0;						
 					}else{
 						if(tabuleiro[linhaOrigem-1][colunaOrigem-1] == PECA_BRANCA && tabuleiro[linhaOrigem-2][colunaOrigem-2] == 0){
+							
 							tabuleiro[linhaOrigem][colunaOrigem] = 0;
+							tabuleiro[linhaOrigem - 1][colunaOrigem - 1] = 0;
 							tabuleiro[linhaOrigem-2][colunaOrigem-2] = PECA_PRETA;
 							jogador = 0;	
-							jogadaInvalida = 0;						
+							jogadaInvalida = 0;
+													
 						}else{
-							if(jogada == 0 && tabuleiro[linhaOrigem][colunaOrigem] == PECA_PRETA){
-								if(	tabuleiro[linhaOrigem-1][colunaOrigem+1] == 0){
-									tabuleiro[linhaOrigem][colunaOrigem] = 0;
-									tabuleiro[linhaOrigem-1][colunaOrigem+1] = PECA_PRETA;
-									jogador = 0;						
-									jogadaInvalida = 0;	
-								}else{
-									if(	tabuleiro[linhaOrigem-1][colunaOrigem+1] != PECA_BRANCA && tabuleiro[linhaOrigem-1][colunaOrigem+1] == 0){
-										tabuleiro[linhaOrigem][colunaOrigem] = 0;
-										tabuleiro[linhaOrigem-1][colunaOrigem+2] = PECA_PRETA;
-										jogador = 0;
-										jogadaInvalida = 0;						
-									}else{
-										jogadaInvalida = 1;
-									}
-								}
-							}
+							jogadaInvalida = 1;
 						}
-					}
-				}else{
-					jogadaInvalida = 1;
 				}
 		}else{
-			if(jogador == 0){
-				if(jogada == 1 && tabuleiro[linhaOrigem][colunaOrigem] == PECA_BRANCA){
-					if(tabuleiro[linhaOrigem+1][colunaOrigem-1] != PECA_BRANCA &&tabuleiro[linhaOrigem+1][colunaOrigem-1] != PECA_PRETA){
+			if(jogada == 0 && tabuleiro[linhaOrigem][colunaOrigem] == PECA_PRETA){
+				if(	tabuleiro[linhaOrigem-1][colunaOrigem+1] == 0){
+							
+					tabuleiro[linhaOrigem][colunaOrigem] = 0;
+						tabuleiro[linhaOrigem-1][colunaOrigem+1] = PECA_PRETA;
+						jogador = 0;						
+						jogadaInvalida = 0;
+								
+				}else{
+					if(	tabuleiro[linhaOrigem-1][colunaOrigem+1] == PECA_BRANCA && tabuleiro[linhaOrigem-2][colunaOrigem+2] == 0){
+								
+						tabuleiro[linhaOrigem][colunaOrigem] = 0;
+						tabuleiro[linhaOrigem-1][colunaOrigem+1] = 0;										
+						tabuleiro[linhaOrigem-2][colunaOrigem+2] = PECA_PRETA;
+						jogador = 0;
+						jogadaInvalida = 0;
+																
+					}
+				}
+			
+			}else{
+				jogadaInvalida = 1;
+			}
+		}
+		if(jogador == 0){
+			if(jogada == 1 && tabuleiro[linhaOrigem][colunaOrigem] == PECA_BRANCA){
+				if(tabuleiro[linhaOrigem+1][colunaOrigem-1] == 0){
+					
 						tabuleiro[linhaOrigem][colunaOrigem] = 0;
 						tabuleiro[linhaOrigem+1][colunaOrigem-1] = PECA_BRANCA;	// testar destino aqui 
 						jogador = 1;
-						jogadaInvalida = 0;
+		
 					}else{
-						if(tabuleiro[linhaOrigem+1][colunaOrigem-1] == PECA_PRETA && tabuleiro[linhaOrigem+2][colunaOrigem-2] != PECA_PRETA)
-						if(jogada == 0 && tabuleiro[linhaOrigem][colunaOrigem] == PECA_BRANCA){
+						if(tabuleiro[linhaOrigem+1][colunaOrigem-1] == PECA_PRETA && tabuleiro[linhaOrigem+2][colunaOrigem-2] == 0){
+							
 							tabuleiro[linhaOrigem][colunaOrigem] = 0;
-							tabuleiro[linhaOrigem+1][colunaOrigem+1] = PECA_BRANCA;
+							tabuleiro[linhaOrigem+1][colunaOrigem-1] = 0;
+							tabuleiro[linhaOrigem+2][colunaOrigem-2] = PECA_BRANCA;
 							jogador = 1;
+														
 						}else{
-					jogadaInvalida = 1;
+							jogadaInvalida = 1;
+						}
+					}
+				}else{
+					if(jogada == 0 && tabuleiro[linhaOrigem][colunaOrigem] == PECA_BRANCA){
+						//arrumar aqui
+						tabuleiro[linhaOrigem][colunaOrigem] = 0;
+						tabuleiro[linhaOrigem+1][colunaOrigem+1] = PECA_BRANCA;
+						jogador = 1;
+							
+					}else{
+						if(tabuleiro[linhaOrigem+1][colunaOrigem+1] == PECA_PRETA && tabuleiro[linhaOrigem+2][colunaOrigem+2] == 0){
+						
+							tabuleiro[linhaOrigem][colunaOrigem] = 0;
+							tabuleiro[linhaOrigem+1][colunaOrigem+1] = 0;
+							tabuleiro[linhaOrigem+2][colunaOrigem+2] = PECA_BRANCA;
+							jogador = 1;
+													
+						}else{
+							jogadaInvalida = 1;
+						}
 					}
 				}	
 			}
 		}
+		if(jogadaInvalida == 1){
+			system("cls");
+			printf("JOGADA INVALIDA \n\n");
+			jogadaInvalida = 0;	
+		}
 	}
-}
+	
 }
 
 
