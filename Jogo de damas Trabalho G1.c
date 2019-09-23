@@ -5,10 +5,10 @@
 #define CASA_PRETA 0
 #define DAMA_BRANCA 3
 #define DAMA_PRETA 4
-
+						//Nome: Cristierre Gomes Konrath
+		// O CÓDIGO FOI COMENTADO PARA AUXILIAR O MESTRE NA CORREÇÃO DO MESMO! 
 int jogador = 1;
-	//TESTAR ELIMINAÇÕES SEQUENCIAIS E FIM DE JOGO!
-	//PERCORRER TODA A MATRIZ PARA TESTAR ELIMINAÇÕES
+
 int main(){
 
 	int tabuleiro[8][8];
@@ -17,10 +17,9 @@ int main(){
 	movePeca(tabuleiro);
 
 
-	printf("\n \n");
-	printf("\n \n");
-
 }
+
+//Função inicio seta as casas com os devidos valores para o tabuleiro
 int inicioDeJogo(int tabuleiro[8][8]) {
 	int indiceLinhas;
 	int indiceColunas;
@@ -56,6 +55,8 @@ int inicioDeJogo(int tabuleiro[8][8]) {
 	}
 	return 0;
 }
+
+//Turno fica responsável por mudar o valor da variável global, para que se possa saber qual o jogador 
 int turno(){
 	if(jogador == 1){
 		printf("Jogador 1 eh sua vez de jogar! \n \n");
@@ -65,7 +66,7 @@ int turno(){
 	return 0;
 }
 
-
+//Função responsável por desenhar o tabuleiro com as peças correspondentes
 int posicionaPecas(int tabuleiro[8][8]){
 	int indiceLinhas = 0;
 	int indiceColunas;
@@ -101,13 +102,17 @@ int posicionaPecas(int tabuleiro[8][8]){
 					}
 
 				};
-		printf(" |");
-		printf("\n \n");
+		
 
 		};
+	}
+		printf(" |");
+		printf("\n \n");
+}
 	return 0;
 }
 
+//MovePeca é a função responsável pela partida, com os contadores de peças subtraídas de cada jogador e tratamentos para as jogadas válidas e inválidas
 int movePeca(int tabuleiro[8][8]){
 
 	int jogada;
@@ -121,7 +126,7 @@ int movePeca(int tabuleiro[8][8]){
 	int jogadaInvalida = 0;
 	char novoJogo[1];
 
-
+	//Laço que envolverá toda a regra do jogo, enquanto as peças estiverem acima de 0 o jogo continua;
 	while(pecasPretasEliminadas < 12 || pecasBrancasEliminadas < 12){
 
 		posicionaPecas(tabuleiro);
@@ -184,16 +189,16 @@ int movePeca(int tabuleiro[8][8]){
 							pecasBrancasEliminadas++;
 							linhaOrigem-= 2;
 							colunaOrigem += 2;
-							
-						}
-							jogador = 0;						
+							jogador = 0;
+						}													
 					}
 				}
 
 			}else{
 				jogadaInvalida = 1;
 			}
-            }
+		}
+            
 		}else{
 			if(jogador == 0){
 				if(jogada == 1 && tabuleiro[linhaOrigem][colunaOrigem] == PECA_BRANCA && linhaOrigem +1 >= 0 && colunaOrigem -1 >= 0){
@@ -252,15 +257,15 @@ int movePeca(int tabuleiro[8][8]){
 		
 			
 		}
-		
-
+	
+		// ao final do laço é testada a variável jogadaInválida, para avisar o player a repetir a sua jogada
 		system("cls");
 		if(jogadaInvalida == 1){
 			system("cls");
 			printf("JOGADA INVALIDA \n\n");
 			jogadaInvalida = 0;
 		}
-	}
+	
 	
 	if(pecasPretasEliminadas == 12){
 		printf("JOGADOR 2 EH O GANHADOR!!!");
@@ -268,6 +273,9 @@ int movePeca(int tabuleiro[8][8]){
 		if(pecasBrancasEliminadas == 12)
 		printf("JOGADOR 1 EH O GANHADOR!!!");
 	}
+	
+	}
+	
 	printf("Novo jogo? S/N ");
 	scanf("%s", &novoJogo);
 	if(novoJogo == "S"){
@@ -276,13 +284,22 @@ int movePeca(int tabuleiro[8][8]){
 		inicioDeJogo(tabuleiro);
 		
 	}
-	
-	
-}
+
+return 0;
 
 }
-return 0;
-}
+
+
+	
+
+
+
+	
+
+
+
+
+
 
 
 
