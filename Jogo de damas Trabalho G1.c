@@ -16,7 +16,6 @@ int main(){
 	inicioDeJogo(tabuleiro);
 	movePeca(tabuleiro);
 
-
 }
 
 //Função inicio seta as casas com os devidos valores para o tabuleiro
@@ -126,7 +125,7 @@ int movePeca(int tabuleiro[8][8]){
 	int jogadaInvalida = 0;
 	char novoJogo[1];
 
-	//Laço que envolverá toda a regra do jogo, enquanto as peças estiverem acima de 0 o jogo continua;
+	//Laço que envolverá toda a regra do jogo, enquanto as peças estiverem abaixo de 12 o jogo continua;
 	while(pecasPretasEliminadas < 12 || pecasBrancasEliminadas < 12){
 
 		posicionaPecas(tabuleiro);
@@ -146,13 +145,13 @@ int movePeca(int tabuleiro[8][8]){
 					if(	tabuleiro[linhaOrigem-1][colunaOrigem-1] == 0){
 						tabuleiro[linhaOrigem][colunaOrigem] = 0;
 						tabuleiro[linhaOrigem-1][colunaOrigem-1] = PECA_PRETA;
-						if(linhaOrigem - 1 == 0){
+						if(linhaOrigem -1 == 0){
 							tabuleiro[linhaOrigem-1][colunaOrigem-1] = DAMA_PRETA;
 						}
 						jogador = 0;
 					}else{
 						if(tabuleiro[linhaOrigem-1][colunaOrigem-1] == PECA_BRANCA && tabuleiro[linhaOrigem-2][colunaOrigem-2] == 0 && linhaOrigem -2 >= 0 && colunaOrigem -2 >= 0){
-							while(tabuleiro[linhaOrigem-1][colunaOrigem-1] == PECA_BRANCA && linhaOrigem -2 >= 0 && colunaOrigem -2 >= 0 && tabuleiro[linhaOrigem-2][colunaOrigem-2]==0){
+							while(tabuleiro[linhaOrigem-1][colunaOrigem-1] == PECA_BRANCA && tabuleiro[linhaOrigem-2][colunaOrigem-2] == 0 && linhaOrigem - 2 >= 0){
 							
 								tabuleiro[linhaOrigem][colunaOrigem] = 0;
 								tabuleiro[linhaOrigem - 1][colunaOrigem - 1] = 0;
@@ -162,8 +161,8 @@ int movePeca(int tabuleiro[8][8]){
 								colunaOrigem -= 2;
 								
 							}
-							if(linhaOrigem - 2 == 0){
-							tabuleiro[linhaOrigem-2][colunaOrigem-2] = DAMA_PRETA;
+							if(linhaOrigem == 0){
+							tabuleiro[linhaOrigem][colunaOrigem] = DAMA_PRETA;
 							}
 								jogador = 0;
 							
@@ -173,15 +172,18 @@ int movePeca(int tabuleiro[8][8]){
 				}
 				
             }else{
-			if(jogada == 0 && tabuleiro[linhaOrigem][colunaOrigem] == PECA_PRETA  && linhaOrigem -1 > 0 && colunaOrigem +1 <= 7){
+			if(jogada == 0 && tabuleiro[linhaOrigem][colunaOrigem] == PECA_PRETA  && linhaOrigem -1 >= 0 && colunaOrigem +1 <= 7){
 				if(	tabuleiro[linhaOrigem-1][colunaOrigem+1] == 0){
 
 					tabuleiro[linhaOrigem][colunaOrigem] = 0;
 					tabuleiro[linhaOrigem-1][colunaOrigem+1] = PECA_PRETA;
 					jogador = 0;
+					if(linhaOrigem -1 == 0){
+						tabuleiro[linhaOrigem-1][colunaOrigem+1] = DAMA_PRETA;
+					}
 				}else{
 					if(	tabuleiro[linhaOrigem-1][colunaOrigem+1] == PECA_BRANCA && tabuleiro[linhaOrigem-2][colunaOrigem+2] == 0  && linhaOrigem -2 >= 0 && colunaOrigem +2 <= 7){
-						while(tabuleiro[linhaOrigem-1][colunaOrigem+1] == PECA_BRANCA && linhaOrigem -2 >= 0 && colunaOrigem +2 <= 7){
+						while(tabuleiro[linhaOrigem-1][colunaOrigem+1] == PECA_BRANCA && tabuleiro[linhaOrigem-2][colunaOrigem+2] == 0 && linhaOrigem - 2 >= 0){
 							
 							tabuleiro[linhaOrigem][colunaOrigem] = 0;
 							tabuleiro[linhaOrigem-1][colunaOrigem+1] = 0;
@@ -189,8 +191,12 @@ int movePeca(int tabuleiro[8][8]){
 							pecasBrancasEliminadas++;
 							linhaOrigem-= 2;
 							colunaOrigem += 2;
-							jogador = 0;
-						}													
+							
+						}
+						if(linhaOrigem == 0){
+							tabuleiro[linhaOrigem][colunaOrigem] = DAMA_PRETA;
+						}
+						jogador = 0;												
 					}
 				}
 
@@ -206,11 +212,14 @@ int movePeca(int tabuleiro[8][8]){
 	
 						tabuleiro[linhaOrigem][colunaOrigem] = 0;
 						tabuleiro[linhaOrigem+1][colunaOrigem-1] = PECA_BRANCA;
+						if(linhaOrigem + 1 == 7){
+							tabuleiro[linhaOrigem+1][colunaOrigem-1] = DAMA_BRANCA;
+						}
 						jogador = 1;
 
 					}else{
 						if(tabuleiro[linhaOrigem+1][colunaOrigem-1] == PECA_PRETA && tabuleiro[linhaOrigem+2][colunaOrigem-2] == 0 && linhaOrigem +2 >= 0 && colunaOrigem -2 >= 0){
-							while(tabuleiro[linhaOrigem+1][colunaOrigem-1] == PECA_PRETA && linhaOrigem +2 >= 0 && colunaOrigem -2 >= 0){
+							while(tabuleiro[linhaOrigem+1][colunaOrigem-1] == PECA_PRETA && tabuleiro[linhaOrigem+2][colunaOrigem-2] == 0 && linhaOrigem + 2 <= 7){
 								
 								tabuleiro[linhaOrigem][colunaOrigem] = 0;
 								tabuleiro[linhaOrigem+1][colunaOrigem-1] = 0;
@@ -219,6 +228,9 @@ int movePeca(int tabuleiro[8][8]){
 								linhaOrigem+= 2;
 								colunaOrigem -= 2;
 								
+							}
+							if(linhaOrigem == 7){
+								tabuleiro[linhaOrigem][colunaOrigem] = DAMA_BRANCA;
 							}
 								jogador = 1;
 							
@@ -232,10 +244,13 @@ int movePeca(int tabuleiro[8][8]){
 						if(tabuleiro[linhaOrigem+1][colunaOrigem+1] ==0){
                             tabuleiro[linhaOrigem][colunaOrigem] = 0;
                             tabuleiro[linhaOrigem+1][colunaOrigem+1] = PECA_BRANCA;
-                            jogador = 1;
+                           	if(linhaOrigem + 1 == 7){
+								tabuleiro[linhaOrigem+1][colunaOrigem+1] = DAMA_BRANCA;
+							}
+							jogador = 1;
 						}else{
                             if(tabuleiro[linhaOrigem+1][colunaOrigem+1] == PECA_PRETA && tabuleiro[linhaOrigem+2][colunaOrigem+2] == 0 && linhaOrigem +2 <= 7  && colunaOrigem +2 <= 7){
-								while(tabuleiro[linhaOrigem+1][colunaOrigem+1] == PECA_PRETA && linhaOrigem +2 <= 7  && colunaOrigem +2 <= 7){
+								while(tabuleiro[linhaOrigem+1][colunaOrigem+1] == PECA_PRETA && tabuleiro[linhaOrigem+2][colunaOrigem+2] == 0 && linhaOrigem + 2 <= 7){
 									
 									tabuleiro[linhaOrigem][colunaOrigem] = 0;
                                 	tabuleiro[linhaOrigem+1][colunaOrigem+1] = 0;
@@ -244,6 +259,9 @@ int movePeca(int tabuleiro[8][8]){
 									linhaOrigem+= 2;
 									colunaOrigem += 2;
 									
+								}
+								if(linhaOrigem == 7){
+									tabuleiro[linhaOrigem][colunaOrigem] = DAMA_BRANCA;
 								}
                                 jogador = 1;
                                
