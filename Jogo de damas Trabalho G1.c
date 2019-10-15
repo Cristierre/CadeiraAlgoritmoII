@@ -7,6 +7,7 @@
 #define DAMA_PRETA 4
 						//Nome: Cristierre Gomes Konrath
 		// O CÓDIGO FOI COMENTADO PARA AUXILIAR O MESTRE NA CORREÇÃO DO MESMO! 
+		//condicionais do tipo da linha 150 estão se repitindo
 int jogador = 1;
 
 int main(){
@@ -108,6 +109,49 @@ int posicionaPecas(int tabuleiro[8][8]){
 		printf(" |");
 		printf("\n \n");
 }
+	return 0;
+}
+
+int damas(int tabuleiro[8][8], int linhaOrigem, int colunaOrigem, int dama){
+	int linhaDestino;
+	int colunaDestino;
+	int linha;
+	int coluna;	
+	int jogadaInvalida = 0;
+	//variáveis linha e coluna ja estão iterando sobre as casas, está redundante o que estou fazendo com colunaOrigem e linhaOrigem
+	if(linhaDestino > linhaOrigem && colunaDestino > colunaOrigem){
+		for(linha = linhaOrigem; linha >= 0; linha ++){
+			
+			for(coluna = colunaOrigem; coluna >= 0; coluna ++){
+				
+				if(tabuleiro[linha+1][coluna+1] != 0 && linha){
+					
+					if(tabuleiro[linha+1][coluna+1] == DAMA_PRETA && jogador == 1){
+						
+						while(linhaOrigem < linhaDestino){
+							
+							linhaOrigem++;
+							colunaOrigem++;
+							if(tabuleiro[linhaOrigem][colunaOrigem] != 0 && colunaOrigem < colunaDestino){
+								printf("jogada inválida!");
+							}
+						}
+					}
+					
+				}else{
+					tabuleiro[linhaOrigem][colunaOrigem] == 0;
+					while(linhaOrigem < linhaDestino){
+						
+						
+						linhaOrigem++;
+						colunaOrigem++;
+					}					
+				}
+			}
+		}
+	}
+
+	
 	return 0;
 }
 
@@ -286,10 +330,14 @@ int movePeca(int tabuleiro[8][8]){
 	
 	
 	if(pecasPretasEliminadas == 12){
+		system("cls");
 		printf("JOGADOR 2 EH O GANHADOR!!!");
 	}else{
-		if(pecasBrancasEliminadas == 12)
+		if(pecasBrancasEliminadas == 12){
+			system("cls");
 		printf("JOGADOR 1 EH O GANHADOR!!!");
+			
+		}
 	}
 	
 	}
