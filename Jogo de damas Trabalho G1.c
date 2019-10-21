@@ -42,7 +42,7 @@ int inicioDeJogo(int tabuleiro[8][8]) {
 		}
 	}
 
-	/*for(indiceLinhas = 0 ; indiceLinhas < 8; indiceLinhas++){
+	for(indiceLinhas = 0 ; indiceLinhas < 8; indiceLinhas++){
 		for(indiceColunas = 0 ; indiceColunas < 8; indiceColunas++){
 			if(indiceLinhas <= 2 && tabuleiro[indiceLinhas][indiceColunas] == 0){
 				tabuleiro[indiceLinhas][indiceColunas] = PECA_BRANCA;
@@ -52,15 +52,8 @@ int inicioDeJogo(int tabuleiro[8][8]) {
 				}
 			}
 		}
-	}*/
+	}
 
-	tabuleiro[0][0] = DAMA_PRETA;
-	//tabuleiro[4][2] = PECA_BRANCA;
-//	tabuleiro[5][1] = PECA_BRANCA;
-	tabuleiro[1][1] = PECA_BRANCA;
-	//tabuleiro[3][3] = PECA_BRANCA;
- 	//tabuleiro[5][5] = PECA_BRANCA;
-	//tabuleiro[6][2] = PECA_PRETA;
 
 	return 0;
 }
