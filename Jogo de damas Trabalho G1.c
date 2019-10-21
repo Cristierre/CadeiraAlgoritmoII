@@ -42,7 +42,7 @@ int inicioDeJogo(int tabuleiro[8][8]) {
 		}
 	}
 
-	/*for(indiceLinhas = 0 ; indiceLinhas < 8; indiceLinhas++){
+	for(indiceLinhas = 0 ; indiceLinhas < 8; indiceLinhas++){
 		for(indiceColunas = 0 ; indiceColunas < 8; indiceColunas++){
 			if(indiceLinhas <= 2 && tabuleiro[indiceLinhas][indiceColunas] == 0){
 				tabuleiro[indiceLinhas][indiceColunas] = PECA_BRANCA;
@@ -52,14 +52,14 @@ int inicioDeJogo(int tabuleiro[8][8]) {
 				}
 			}
 		}
-	}*/
+	}
 
-	tabuleiro[4][2] = DAMA_PRETA;
+	//tabuleiro[0][0] = DAMA_PRETA;
 	//tabuleiro[4][2] = PECA_BRANCA;
 //	tabuleiro[5][1] = PECA_BRANCA;
-	tabuleiro[3][3] = DAMA_BRANCA;
-	tabuleiro[1][5] = DAMA_BRANCA;
-//	tabuleiro[4][4] = PECA_PRETA;
+	//tabuleiro[1][1] = PECA_BRANCA;
+	//tabuleiro[3][3] = PECA_BRANCA;
+ 	//tabuleiro[5][5] = PECA_BRANCA;
 	//tabuleiro[6][2] = PECA_PRETA;
 
 	return 0;
@@ -121,7 +121,7 @@ int posicionaPecas(int tabuleiro[8][8]){
 	return 0;
 }
 
-int damas(int tabuleiro[8][8], int linhaOrigem, int colunaOrigem, int dama, int pecaJoga){
+int damas(int tabuleiro[8][8], int linhaOrigem, int colunaOrigem, int dama, int pecaJoga, int pecaEliminada){
 
 	int linhaDestino;
 	int colunaDestino;
@@ -149,7 +149,7 @@ int damas(int tabuleiro[8][8], int linhaOrigem, int colunaOrigem, int dama, int 
         system("cls");
         posicionaPecas(tabuleiro);
         printf("Para qual linha deseja move a dama? \n");
-        scanf("%d", &linhaDestino);
+        scanf("%d", &linhaDestino);pecaEliminada++;
 
         printf("Para qual coluna deseja move a dama? \n");
         scanf("%d", &colunaDestino);
@@ -162,8 +162,6 @@ int damas(int tabuleiro[8][8], int linhaOrigem, int colunaOrigem, int dama, int 
             if(linhaDestino != linhaOrigem && linhaDestino <= 7 && linhaDestino >= 0 && colunaDestino <= 7 && colunaDestino >= 0){
                     //jogada inferior esquerda
                     if(linhaDestino > linhaOrigem && colunaDestino < colunaOrigem && tabuleiro[linhaDestino][colunaDestino]==0){
-                        printf("entrou 1");
-                        system("cls");
                         while(linhaAtual < linhaDestino){
                             linhaAtual++;
                             colunaAtual--;
@@ -183,7 +181,8 @@ int damas(int tabuleiro[8][8], int linhaOrigem, int colunaOrigem, int dama, int 
                             tabuleiro[linhaDestino][colunaDestino] = dama;
                             tabuleiro[linhaDestino-1][colunaDestino+1] = 0;
                             tabuleiro[linhaOrigem][colunaOrigem] = 0;
-                            pecasNoCaminho--;
+                            pecaEliminada++;
+
 
                             while(tabuleiro[linhaDestino+1][colunaDestino-1]==damaInimiga || tabuleiro[linhaDestino+1][colunaDestino-1] == pecaInimiga && tabuleiro[linhaDestino+2][colunaDestino-2] == 0){
                                 linhaOrigem= linhaDestino;
@@ -193,6 +192,7 @@ int damas(int tabuleiro[8][8], int linhaOrigem, int colunaOrigem, int dama, int 
                                 colunaDestino = colunaDestino - 2;
                                 tabuleiro[linhaDestino][colunaDestino] = dama;
                                 tabuleiro[linhaDestino-1][colunaDestino+1] = 0;
+                                pecaEliminada++;
                             }
                         }else{
                             printf("JOGADA INVALIDA");
@@ -201,7 +201,7 @@ int damas(int tabuleiro[8][8], int linhaOrigem, int colunaOrigem, int dama, int 
                     }else{
                         //jogada superior esquerda
                         if(linhaDestino < linhaOrigem && colunaDestino < colunaOrigem && tabuleiro[linhaDestino][colunaDestino]==0){
-                                printf("entrou 1");
+
                              while(linhaAtual < linhaDestino){
                                 linhaAtual--;
                                 colunaAtual--;
@@ -220,16 +220,18 @@ int damas(int tabuleiro[8][8], int linhaOrigem, int colunaOrigem, int dama, int 
                                 tabuleiro[linhaDestino][colunaDestino] = dama;
                                 tabuleiro[linhaDestino+1][colunaDestino+1] = 0;
                                 tabuleiro[linhaOrigem][colunaOrigem] = 0;
-                                pecasNoCaminho--;
+                                pecaEliminada++;
+
 
                             while(tabuleiro[linhaDestino-1][colunaDestino-1]==damaInimiga || tabuleiro[linhaDestino-1][colunaDestino-1] == pecaInimiga && tabuleiro[linhaDestino-2][colunaDestino-2] == 0){
                                 linhaOrigem= linhaDestino;
                                 colunaOrigem = colunaDestino;
                                 tabuleiro[linhaOrigem][colunaOrigem] = 0;
-                                linhaDestino = linhaDestino - 2;
-                                colunaDestino = colunaDestino - 2;
+                                linhaDestino -= 2;
+                                colunaDestino -=  2;
                                 tabuleiro[linhaDestino][colunaDestino] = dama;
                                 tabuleiro[linhaDestino-1][colunaDestino-1] = 0;
+                                pecaEliminada++;
                             }
 
 
@@ -265,24 +267,70 @@ int damas(int tabuleiro[8][8], int linhaOrigem, int colunaOrigem, int dama, int 
                                     tabuleiro[linhaDestino][colunaDestino] = dama;
                                     tabuleiro[linhaDestino+1][colunaDestino-1] = 0;
                                     tabuleiro[linhaOrigem][colunaOrigem] = 0;
-                                    pecasNoCaminho--;
+                                    pecaEliminada++;
 
                                     while(tabuleiro[linhaDestino-1][colunaDestino+1]==damaInimiga || tabuleiro[linhaDestino-1][colunaDestino+1] == pecaInimiga && tabuleiro[linhaDestino-2][colunaDestino+2] == 0){
                                         linhaOrigem= linhaDestino;
                                         colunaOrigem = colunaDestino;
                                         tabuleiro[linhaOrigem][colunaOrigem] = 0;
-                                        linhaDestino = linhaDestino - 2;
-                                        colunaDestino = colunaDestino + 2;
+                                        linhaDestino -= 2;
+                                        colunaDestino += 2;
                                         tabuleiro[linhaDestino][colunaDestino] = dama;
                                         tabuleiro[linhaDestino+1][colunaDestino-1] = 0;
+                                        pecaEliminada++;
                                     }
                                 }else{
                                     printf("JOGADA INVALIDA");
                                     fimDaJogada = 0;
                                 }
+                            }else{
+                                // jogada inferior direita
+                                if(linhaDestino > linhaOrigem && colunaDestino > colunaOrigem && tabuleiro[linhaDestino][colunaDestino]==0){
+
+                                     while(linhaAtual < linhaDestino){
+                                        linhaAtual++;
+                                        colunaAtual++;
+
+                                        if(tabuleiro[linhaAtual][colunaAtual] != 0){
+                                            pecasNoCaminho++;
+                                        }else{
+                                            if(tabuleiro[linhaDestino][colunaDestino] == 0 && pecasNoCaminho == 0){
+                                                tabuleiro[linhaDestino][colunaDestino] = dama;
+                                                tabuleiro[linhaOrigem][colunaOrigem] = 0;
+                                            }
+                                        }
+
+                                    }
+                                    if(pecasNoCaminho == 1 && tabuleiro[linhaDestino-1][colunaDestino-1]==pecaInimiga || tabuleiro[linhaDestino-1][colunaDestino-1]==damaInimiga){
+                                        tabuleiro[linhaDestino][colunaDestino] = dama;
+                                        tabuleiro[linhaDestino-1][colunaDestino-1] = 0;
+                                        tabuleiro[linhaOrigem][colunaOrigem] = 0;
+                                        pecaEliminada++;
+
+                                    while(tabuleiro[linhaDestino+1][colunaDestino+1]==damaInimiga || tabuleiro[linhaDestino+1][colunaDestino+1] == pecaInimiga && tabuleiro[linhaDestino+2][colunaDestino+2] == 0){
+                                        linhaOrigem= linhaDestino;
+                                        colunaOrigem = colunaDestino;
+                                        tabuleiro[linhaOrigem][colunaOrigem] = 0;
+                                        linhaDestino += 2;
+                                        colunaDestino += 2;
+                                        tabuleiro[linhaDestino][colunaDestino] = dama;
+                                        tabuleiro[linhaDestino-1][colunaDestino-1] = 0;
+                                        pecaEliminada++;
+                                    }
+
+
+                                }else{
+                                    if(pecasNoCaminho > 1){
+                                        system("cls");
+                                        printf("JOGADA INVALIDA 2\n");
+                                        fimDaJogada = 0;
+                                        pecasNoCaminho = 0;
+                                    }
+                                }
                             }
                     }
                     }
+                }
             }else{
                 system("cls");
                 printf("JOGADA INVALIDA 3\n");
@@ -315,7 +363,7 @@ int movePeca(int tabuleiro[8][8]){
 
 	//Laço que envolverá toda a regra do jogo, enquanto as peças estiverem abaixo de 12 o jogo continua;
 	while(pecasPretasEliminadas < 12 || pecasBrancasEliminadas < 12){
-
+        system("cls");
 		posicionaPecas(tabuleiro);
 		turno();
 
@@ -326,15 +374,17 @@ int movePeca(int tabuleiro[8][8]){
 
         printf(" %d \n", tabuleiro[linhaOrigem][colunaOrigem]);
         if(tabuleiro[linhaOrigem][colunaOrigem] == DAMA_PRETA){
-                damas(tabuleiro,linhaOrigem,colunaOrigem,DAMA_PRETA, PECA_PRETA);
+                damas(tabuleiro,linhaOrigem,colunaOrigem,DAMA_PRETA, PECA_PRETA, pecasBrancasEliminadas);
                 damaJoga = 1;
                 jogador = !jogador;
+                system("cls");
 
         }else{
              if(tabuleiro[linhaOrigem][colunaOrigem] == DAMA_BRANCA){
-                damas(tabuleiro,linhaOrigem,colunaOrigem,DAMA_BRANCA, PECA_BRANCA);
+                damas(tabuleiro,linhaOrigem,colunaOrigem,DAMA_BRANCA, PECA_BRANCA, pecasPretasEliminadas);
                 damaJoga = 1;
                 jogador = !jogador;
+                system("cls");
              }
         }
 		if(jogador == 1 && damaJoga == 0){
@@ -438,6 +488,7 @@ int movePeca(int tabuleiro[8][8]){
 
 
 						}else{
+
 							jogadaInvalida = 1;
 						}
 					}
@@ -470,6 +521,7 @@ int movePeca(int tabuleiro[8][8]){
 						}
 						}
 					}else{
+
 						jogadaInvalida = 1;
 					}
 				}
@@ -479,7 +531,7 @@ int movePeca(int tabuleiro[8][8]){
 		}
 
 		// ao final do laço é testada a variável jogadaInválida, para avisar o player a repetir a sua jogada
-		//system("cls");
+
 		if(jogadaInvalida == 1){
 			system("cls");
 			printf("JOGADA INVALIDA 3\n\n");
