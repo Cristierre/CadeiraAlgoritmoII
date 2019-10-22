@@ -52,7 +52,7 @@ int inicioDeJogo(int tabuleiro[8][8]) {
 		}
 	}
 
-	for(indiceLinhas = 0 ; indiceLinhas < 8; indiceLinhas++){
+	/*for(indiceLinhas = 0 ; indiceLinhas < 8; indiceLinhas++){
 		for(indiceColunas = 0 ; indiceColunas < 8; indiceColunas++){
 			if(indiceLinhas <= 2 && tabuleiro[indiceLinhas][indiceColunas] == 0){
 				tabuleiro[indiceLinhas][indiceColunas] = PECA_BRANCA;
@@ -62,13 +62,12 @@ int inicioDeJogo(int tabuleiro[8][8]) {
 				}
 			}
 		}
-	}
-	tabuleiro[3][3]= PECA_BRANCA;
-	tabuleiro[3][5]= PECA_BRANCA;
-	tabuleiro[4][4]= PECA_PRETA;
+	}*/
+	tabuleiro[3][3]= DAMA_BRANCA;
+	tabuleiro[2][2]= PECA_PRETA;
+	//tabuleiro[4][4]= PECA_PRETA;
 	tabuleiro[4][2]= PECA_PRETA;
-
-
+	tabuleiro[2][4]= PECA_PRETA;
 
 
 
@@ -165,6 +164,7 @@ int damas(int tabuleiro[8][8], int linhaOrigem, int colunaOrigem, int dama, int 
         printf("Para qual coluna deseja move a dama? \n");
         scanf("%d", &colunaDestino);
         system("cls");
+        confereJogadasObrigatorias(0, tabuleiro, linhaOrigem, colunaOrigem, linhaDestino, colunaDestino);
         posicionaPecas(tabuleiro);
 
             fimDaJogada = 1;
@@ -361,7 +361,8 @@ int damas(int tabuleiro[8][8], int linhaOrigem, int colunaOrigem, int dama, int 
 	}
     return 0;
 }
-int confereJogadasObrigatorias(int jogada, int tabuleiro[8][8], int linhaOrigem, int colunaOrigem){
+
+int confereJogadasObrigatorias(int jogada, int tabuleiro[8][8], int linhaOrigem, int colunaOrigem, int linhaDestinoDama, int colunaDestinoDama){
 
     int colunaMoverDireita;
 	int linhaMoverDireita;
@@ -373,40 +374,46 @@ int confereJogadasObrigatorias(int jogada, int tabuleiro[8][8], int linhaOrigem,
 	int linhaDestinoEsquerda;
 	int colunaDestinoEsquerda;
 
+	int testeLinhaJogadaDama = linhaOrigem;
+	int testeColunaJogadaDama = colunaOrigem;
 
 	int pecaInimiga;
 	int damaInimiga;
-    // Indica quem está jogando para dizer quais peças serão consideradas inimigas e quais as possibilidades de movimentações
-	if(jogador == 1 ){
-			pecaInimiga = PECA_BRANCA;
-			damaInimiga = DAMA_BRANCA;
-			//Se escolher se mover para a direita, as variaveis serão testadas com base no movimento da esquerda e vice-versa
-			if(jogada == 1){
-				linhaMoverDireita = -1;
-				colunaMoverDireita = + 1;
-				linhaDestinoDireita = linhaOrigem -2;
-				colunaDestinoDireita = colunaOrigem +2;
-			}else{
-				linhaMoverEsquerda = -1;
-				colunaMoverEsquerda = -1;
-				linhaDestinoEsquerda =  linhaOrigem -2;
-				colunaDestinoEsquerda = colunaOrigem -2;
-			}
-		}else{
-				pecaInimiga = PECA_PRETA;
-				damaInimiga = DAMA_PRETA;
-				if(jogada == 1){
-					linhaMoverDireita = +1;
-					colunaMoverDireita = +1;
-					linhaDestinoDireita = linhaOrigem+2;
-					colunaDestinoDireita = colunaOrigem+2;
-				}else{
-					linhaMoverEsquerda =   +1;
-					colunaMoverEsquerda =  -1;
-					linhaDestinoEsquerda = linhaOrigem+2;
-					colunaDestinoEsquerda = colunaOrigem-2;
-				}
-		}
+
+	 // Indica quem está jogando para dizer quais peças serão consideradas inimigas e quais as possibilidades de movimentações
+        if(jogador == 1 ){
+            pecaInimiga = PECA_BRANCA;
+            damaInimiga = DAMA_BRANCA;
+            //Se escolher se mover para a direita, as variaveis serão testadas com base no movimento da esquerda e vice-versa
+            if(jogada == 1){
+                linhaMoverDireita = -1;
+                colunaMoverDireita = + 1;
+                linhaDestinoDireita = linhaOrigem -2;
+                colunaDestinoDireita = colunaOrigem +2;
+            }else{
+                linhaMoverEsquerda = -1;
+                colunaMoverEsquerda = -1;
+                linhaDestinoEsquerda =  linhaOrigem -2;
+                colunaDestinoEsquerda = colunaOrigem -2;
+            }
+        }else{
+            pecaInimiga = PECA_PRETA;
+            damaInimiga = DAMA_PRETA;
+            if(jogada == 1){
+                linhaMoverDireita = +1;
+                colunaMoverDireita = +1;
+                linhaDestinoDireita = linhaOrigem+2;
+                colunaDestinoDireita = colunaOrigem+2;
+            }else{
+                linhaMoverEsquerda =   +1;
+                colunaMoverEsquerda =  -1;
+                linhaDestinoEsquerda = linhaOrigem+2;
+                colunaDestinoEsquerda = colunaOrigem-2;
+            }
+        }
+
+	if(tabuleiro[linhaOrigem][colunaOrigem] == PECA_BRANCA || tabuleiro[linhaOrigem][colunaOrigem] == PECA_PRETA){
+
         if(jogada == 1){
             //Aqui é verificado a jogada inversa, se escolheu jogar para a direita a esquerda será testada
             if((tabuleiro[linhaOrigem+linhaMoverDireita][colunaOrigem+colunaMoverDireita] == pecaInimiga || tabuleiro[linhaOrigem+linhaMoverDireita][colunaOrigem+colunaMoverDireita] == damaInimiga) && tabuleiro[linhaDestinoDireita][colunaDestinoDireita] == 0){
@@ -436,6 +443,47 @@ int confereJogadasObrigatorias(int jogada, int tabuleiro[8][8], int linhaOrigem,
                 }
             }
         }
+	}else{
+	    //inferior direita
+        if(linhaDestinoDama > linhaOrigem && colunaDestinoDama > colunaOrigem){
+                printf("entrou");
+                system("Pause");
+            //superior esquerda
+            while(linhaDestinoDama >= testeLinhaJogadaDama && colunaDestinoDama <= testeColunaJogadaDama && tabuleiro[testeLinhaJogadaDama][testeColunaJogadaDama] == 0){
+                if((tabuleiro[testeLinhaJogadaDama][testeColunaJogadaDama] == pecaInimiga || tabuleiro[testeLinhaJogadaDama][testeColunaJogadaDama] == damaInimiga) && tabuleiro[testeLinhaJogadaDama+1][testeColunaJogadaDama-1]==0){
+                    jogadaObrigatoria = 1;
+                    printf("JOGADA OBRIGATÓRIA: linha %d, coluna %d \n",testeLinhaJogadaDama, testeColunaJogadaDama);
+                }
+                testeLinhaJogadaDama++;
+                testeColunaJogadaDama--;
+            }
+
+            //superior direita
+            //inferior esquerda
+        }else{
+            //superior esquerda
+            if(linhaDestinoDama < testeLinhaJogadaDama  && colunaDestinoDama < testeColunaJogadaDama){
+                //superior direita
+                //inferior esquerda
+                //inferior direita
+            }else{
+                //superior direita
+                 if(linhaDestinoDama < testeLinhaJogadaDama  && colunaDestinoDama > testeColunaJogadaDama){
+                    //inferior esquerda
+                    //inferior direita
+                    //superior esquerda
+                 }else{
+                    //inferior esquerda
+                    if(linhaDestinoDama > testeLinhaJogadaDama  && colunaDestinoDama < testeColunaJogadaDama){
+                        //inferior direita
+                        //superior esquerda
+                        //superior direita
+                    }
+                 }
+            }
+        }
+	}
+
         return 0;
 }
 //MovePeca é a função responsável pela partida, com os contadores de peças subtraídas de cada jogador e tratamentos para as jogadas válidas e inválidas
@@ -489,7 +537,7 @@ int movePeca(int tabuleiro[8][8]){
         scanf("%d", &jogada);
         system("cls");
 
-        confereJogadasObrigatorias(jogada, tabuleiro, linhaOrigem, colunaOrigem);
+        confereJogadasObrigatorias(jogada, tabuleiro, linhaOrigem, colunaOrigem, 0, 0);
 
 		if(jogador == 1 && damaJoga == 0 && jogadaObrigatoria == 0){
 
