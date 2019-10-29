@@ -154,7 +154,6 @@ int damas(int tabuleiro[8][8], int linhaOrigem, int colunaOrigem, int dama, int 
 
 
 	while(fimDaJogada == 0){
-
         printf("Jogador %d eh sua vez! \n\n", jogador);
 
         posicionaPecas(tabuleiro);
@@ -360,6 +359,32 @@ int damas(int tabuleiro[8][8], int linhaOrigem, int colunaOrigem, int dama, int 
     return 0;
 }
 
+int obrigatoriaDama(int linhaOrigem, int colunaOrigem, int tabuleiro[8][8], int movLinha, int movColuna){
+	
+	int linhaTeste = linhaOrigem + movLinha;
+	int colunaTeste = colunaOrigem + movColuna;
+	int damaInimiga;
+	int pecaInimiga;
+	
+	if(jogador == 1){
+		pecaInimiga = PECA_BRANCA;
+		pecaInimiga = PECA_BRANCA;
+	}else{
+		pecaInimiga = PECA_PRETA;
+		pecaInimiga = PECA_PRETA;
+	}
+	
+	while((linhaTeste >= 0 && linhaTeste <=7)&&(colunaOrigem >= 0 && colunaOrigem <= 7)){
+		
+		if((tabuleiro[linhaTeste][colunaTeste] == pecaInimiga || tabuleiro[linhaTeste][colunaTeste] == damaInimiga) && tabuleiro[linhaTeste+movLinha][colunaTeste+movColuna] == 0 ){
+			jogadaObrigatoria = 1;
+		}
+		linhaTeste += movLinha;
+		colunaTeste += movColuna;	
+	}
+	return 0;
+}
+
 int confereJogadasObrigatorias(int jogada, int tabuleiro[8][8], int linhaOrigem, int colunaOrigem, int linhaDestinoDama, int colunaDestinoDama){
 
     int colunaMoverDireita;
@@ -441,142 +466,22 @@ int confereJogadasObrigatorias(int jogada, int tabuleiro[8][8], int linhaOrigem,
                 }
             }
         }
-	}else{
-	    //inferior direita
-        if(linhaDestinoDama > linhaOrigem && colunaDestinoDama > colunaOrigem){
+	}else{	        
+        	//inferior direita
+        	obrigatoriaDama(linhaOrigem, colunaOrigem, tabuleiro, +1, +1);
             //superior esquerda
-            while(testeLinhaJogadaDama >= 0 && testeColunaJogadaDama >= 0 && jogadaObrigatoria != 1){
-                if((tabuleiro[testeLinhaJogadaDama][testeColunaJogadaDama] == pecaInimiga || tabuleiro[testeLinhaJogadaDama][testeColunaJogadaDama] == damaInimiga) && tabuleiro[testeLinhaJogadaDama+1][testeColunaJogadaDama-1]==0){
-                    jogadaObrigatoria = 1;
-                    printf("JOGADA OBRIGATÓRIA: linha %d, coluna %d \n",testeLinhaJogadaDama, testeColunaJogadaDama);
-                }
-                testeLinhaJogadaDama--;
-                testeColunaJogadaDama--;
-            }
+            obrigatoriaDama(linhaOrigem, colunaOrigem, tabuleiro, -1, -1);
             //superior direita
-            while(testeLinhaJogadaDama >= 0 && testeColunaJogadaDama <= 7 && jogadaObrigatoria != 1){
-                if((tabuleiro[testeLinhaJogadaDama][testeColunaJogadaDama] == pecaInimiga || tabuleiro[testeLinhaJogadaDama][testeColunaJogadaDama] == damaInimiga) && tabuleiro[testeLinhaJogadaDama+1][testeColunaJogadaDama-1]==0){
-                    jogadaObrigatoria = 1;
-                    printf("JOGADA OBRIGATÓRIA: linha %d, coluna %d \n",testeLinhaJogadaDama, testeColunaJogadaDama);
-                }
-                testeLinhaJogadaDama++;
-                testeColunaJogadaDama--;
-            }
+            obrigatoriaDama(linhaOrigem, colunaOrigem, tabuleiro, -1, +1);
             //inferior esquerda
-            while(testeLinhaJogadaDama >= 0 && testeColunaJogadaDama <= 7 && jogadaObrigatoria != 1){
-                if((tabuleiro[testeLinhaJogadaDama][testeColunaJogadaDama] == pecaInimiga || tabuleiro[testeLinhaJogadaDama][testeColunaJogadaDama] == damaInimiga) && tabuleiro[testeLinhaJogadaDama+1][testeColunaJogadaDama-1]==0){
-                    jogadaObrigatoria = 1;
-                    printf("JOGADA OBRIGATÓRIA: linha %d, coluna %d \n",testeLinhaJogadaDama, testeColunaJogadaDama);
-                }
-                testeLinhaJogadaDama--;
-                testeColunaJogadaDama++;
-            }
-
-
-
-        }else{
-            //superior esquerda
-            if(linhaDestinoDama < testeLinhaJogadaDama  && colunaDestinoDama < testeColunaJogadaDama){
-
-                //superior direita
-                 while(testeLinhaJogadaDama >= 0 && testeColunaJogadaDama <= 7 && jogadaObrigatoria != 1){
-                    if((tabuleiro[testeLinhaJogadaDama][testeColunaJogadaDama] == pecaInimiga || tabuleiro[testeLinhaJogadaDama][testeColunaJogadaDama] == damaInimiga) && tabuleiro[testeLinhaJogadaDama+1][testeColunaJogadaDama-1]==0){
-                        jogadaObrigatoria = 1;
-                        printf("JOGADA OBRIGATÓRIA: linha %d, coluna %d \n",testeLinhaJogadaDama, testeColunaJogadaDama);
-                    }
-                        testeLinhaJogadaDama++;
-                        testeColunaJogadaDama--;
-                }
-                //inferior esquerda
-                while(testeLinhaJogadaDama >= 0 && testeColunaJogadaDama <= 7 && jogadaObrigatoria != 1){
-                    if((tabuleiro[testeLinhaJogadaDama][testeColunaJogadaDama] == pecaInimiga || tabuleiro[testeLinhaJogadaDama][testeColunaJogadaDama] == damaInimiga) && tabuleiro[testeLinhaJogadaDama+1][testeColunaJogadaDama-1]==0){
-                        jogadaObrigatoria = 1;
-                        printf("JOGADA OBRIGATÓRIA: linha %d, coluna %d \n",testeLinhaJogadaDama, testeColunaJogadaDama);
-                    }
-                    testeLinhaJogadaDama--;
-                    testeColunaJogadaDama++;
-                }
-                //inferior direita
-                while(testeLinhaJogadaDama >= 0 && testeColunaJogadaDama <= 7 && jogadaObrigatoria != 1){
-                    if((tabuleiro[testeLinhaJogadaDama][testeColunaJogadaDama] == pecaInimiga || tabuleiro[testeLinhaJogadaDama][testeColunaJogadaDama] == damaInimiga) && tabuleiro[testeLinhaJogadaDama+1][testeColunaJogadaDama-1]==0){
-                        jogadaObrigatoria = 1;
-                        printf("JOGADA OBRIGATÓRIA: linha %d, coluna %d \n",testeLinhaJogadaDama, testeColunaJogadaDama);
-                    }
-                    testeLinhaJogadaDama++;
-                    testeColunaJogadaDama++;
-                }
-            }else{
-                //superior direita
-                 if(linhaDestinoDama < testeLinhaJogadaDama  && colunaDestinoDama > testeColunaJogadaDama){
-
-                    //inferior esquerda
-                    while(testeLinhaJogadaDama >= 0 && testeColunaJogadaDama <= 7 && jogadaObrigatoria != 1){
-                             printf("entrou");
-                            system("pause");
-                        if((tabuleiro[testeLinhaJogadaDama][testeColunaJogadaDama] == pecaInimiga || tabuleiro[testeLinhaJogadaDama][testeColunaJogadaDama] == damaInimiga) && tabuleiro[testeLinhaJogadaDama+1][testeColunaJogadaDama-1]==0){
-                            jogadaObrigatoria = 1;
-                            printf("JOGADA OBRIGATÓRIA: linha %d, coluna %d \n",testeLinhaJogadaDama, testeColunaJogadaDama);
-                        }
-                        testeLinhaJogadaDama--;
-                        testeColunaJogadaDama++;
-                    }
-                    //inferior direita
-                    while(testeLinhaJogadaDama >= 0 && testeColunaJogadaDama <= 7 && jogadaObrigatoria != 1){
-                        if((tabuleiro[testeLinhaJogadaDama][testeColunaJogadaDama] == pecaInimiga || tabuleiro[testeLinhaJogadaDama][testeColunaJogadaDama] == damaInimiga) && tabuleiro[testeLinhaJogadaDama+1][testeColunaJogadaDama-1]==0){
-                            jogadaObrigatoria = 1;
-                            printf("JOGADA OBRIGATÓRIA: linha %d, coluna %d \n",testeLinhaJogadaDama, testeColunaJogadaDama);
-                        }
-                        testeLinhaJogadaDama++;
-                        testeColunaJogadaDama++;
-                    }
-                    //superior esquerda
-                    while(testeLinhaJogadaDama >= 0 && testeColunaJogadaDama >= 0 && jogadaObrigatoria != 1){
-                        if((tabuleiro[testeLinhaJogadaDama][testeColunaJogadaDama] == pecaInimiga || tabuleiro[testeLinhaJogadaDama][testeColunaJogadaDama] == damaInimiga) && tabuleiro[testeLinhaJogadaDama+1][testeColunaJogadaDama-1]==0){
-                            jogadaObrigatoria = 1;
-                            printf("JOGADA OBRIGATÓRIA: linha %d, coluna %d \n",testeLinhaJogadaDama, testeColunaJogadaDama);
-                        }
-                        testeLinhaJogadaDama--;
-                        testeColunaJogadaDama--;
-                    }
-                 }else{
-                    //inferior esquerda
-                    if(linhaDestinoDama > testeLinhaJogadaDama  && colunaDestinoDama < testeColunaJogadaDama){
-
-                        //inferior direita
-                        while(testeLinhaJogadaDama >= 0 && testeColunaJogadaDama <= 7 && jogadaObrigatoria != 1){
-                            if((tabuleiro[testeLinhaJogadaDama][testeColunaJogadaDama] == pecaInimiga || tabuleiro[testeLinhaJogadaDama][testeColunaJogadaDama] == damaInimiga) && tabuleiro[testeLinhaJogadaDama+1][testeColunaJogadaDama-1]==0){
-                                jogadaObrigatoria = 1;
-                                printf("JOGADA OBRIGATÓRIA: linha %d, coluna %d \n",testeLinhaJogadaDama, testeColunaJogadaDama);
-                            }
-                            testeLinhaJogadaDama++;
-                            testeColunaJogadaDama++;
-                        }
-                        //superior esquerda
-                        while(testeLinhaJogadaDama >= 0 && testeColunaJogadaDama >= 0 && jogadaObrigatoria != 1){
-                            if((tabuleiro[testeLinhaJogadaDama][testeColunaJogadaDama] == pecaInimiga || tabuleiro[testeLinhaJogadaDama][testeColunaJogadaDama] == damaInimiga) && tabuleiro[testeLinhaJogadaDama+1][testeColunaJogadaDama-1]==0){
-                                jogadaObrigatoria = 1;
-                                printf("JOGADA OBRIGATÓRIA: linha %d, coluna %d \n",testeLinhaJogadaDama, testeColunaJogadaDama);
-                                }
-                            testeLinhaJogadaDama--;
-                            testeColunaJogadaDama--;
-                        }
-                        //superior direita
-                        while(testeLinhaJogadaDama >= 0 && testeColunaJogadaDama <= 7 && jogadaObrigatoria != 1){
-                            if((tabuleiro[testeLinhaJogadaDama][testeColunaJogadaDama] == pecaInimiga || tabuleiro[testeLinhaJogadaDama][testeColunaJogadaDama] == damaInimiga) && tabuleiro[testeLinhaJogadaDama+1][testeColunaJogadaDama-1]==0){
-                                jogadaObrigatoria = 1;
-                                printf("JOGADA OBRIGATÓRIA: linha %d, coluna %d \n",testeLinhaJogadaDama, testeColunaJogadaDama);
-                            }
-                            testeLinhaJogadaDama++;
-                            testeColunaJogadaDama--;
-                        }
-                    }
-                 }
-            }
-        }
+            obrigatoriaDama(linhaOrigem, colunaOrigem, tabuleiro, +1, -1);       
+    
 	}
 
         return 0;
 }
+
+
 
 //MovePeca é a função responsável pela partida, com os contadores de peças subtraídas de cada jogador e tratamentos para as jogadas válidas e inválidas
 int movePeca(int tabuleiro[8][8]){
@@ -624,8 +529,7 @@ int movePeca(int tabuleiro[8][8]){
                 system("cls");
              }
         }
-
-
+	
 
 		if(jogador == 1 && damaJoga == 0 && jogadaObrigatoria == 0){
 			printf("Digite 1 para mover para a esquerda e 0 para mover para a direita! \n");
