@@ -593,11 +593,11 @@ int movePeca(int tabuleiro[8][8]){
              }
         }
 
-
-		if(jogador == 1 && damaJoga == 0 && jogadaObrigatoria == 0){
 			printf("Digite 1 para mover para a esquerda e 0 para mover para a direita! \n");
         	scanf("%d", &jogada);
         	system("cls");
+
+		if(jogador == 1 && damaJoga == 0 && jogadaObrigatoria == 0){
 
         	confereJogadasObrigatorias(jogada, tabuleiro, linhaOrigem, colunaOrigem, 0, 0);
 
